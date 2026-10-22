@@ -34,9 +34,9 @@ test('fetches and displays the exchange rate for a valid country', async () => {
   fireEvent.change(input, { target: { value: 'Germany' } });
   fireEvent.click(button);
 
-  await waitFor(() => {
-    expect(screen.getByText(/Exchange Rate/i)).toBeInTheDocument();
-  });
+  // The result block's own heading; /Exchange Rate/i alone also matches the
+  // page title and the submit button.
+  expect(await screen.findByRole('heading', { name: 'Exchange Rate' })).toBeInTheDocument();
 
   expect(screen.getByText(/"country": "Germany"/i)).toBeInTheDocument();
   expect(screen.getByText(/"currency": "EUR"/i)).toBeInTheDocument();
@@ -99,7 +99,7 @@ test('displays an error message for an invalid exchange rate API response', asyn
 });
 
 test('does not submit when the input is empty', () => {
-  const mockFetch = jest.spyOn(global, 'fetch');
+  const mockFetch = vi.spyOn(globalThis, 'fetch');
   render(<App />);
   const button = screen.getByText(/Get Exchange Rate/i);
 

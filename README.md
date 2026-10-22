@@ -1,6 +1,6 @@
 # Exchange Rate Finder
 
-This project is a web application that allows users to find the exchange rate between a country's currency and the Euro (EUR). The application is built with a React frontend and a Node.js/TypeScript backend.
+This project is a web application that allows users to find the exchange rate between a country's currency and the Euro (EUR). The application is built with React and TypeScript.
 
 ## Features
 
@@ -10,60 +10,38 @@ This project is a web application that allows users to find the exchange rate be
 
 ## Project Structure
 
-The project is a monorepo with the following structure:
+This repository is the React frontend: a single-page app built with [Vite](https://vite.dev/) and TypeScript.
+It calls the public restcountries.com and exchangerate-api.com APIs directly from the browser; there is no backend
+in this repository.
 
-*   `/`: The root directory contains the backend Node.js/TypeScript application.
-*   `/react-app`: This directory contains the frontend React application.
+*   `index.html`: the page Vite serves and builds from (it loads `src/index.tsx`).
+*   `src/`: the application and its tests; `src/mocks/` holds the [MSW](https://mswjs.io/) handlers the tests use.
+*   `public/`: static files copied verbatim into the build.
 
 ## Getting Started
 
 ### Prerequisites
 
-*   Node.js and npm installed on your machine.
+*   Node.js 22.12 or newer (Vite 8 requires it) and npm.
 
 ### Installation
 
-1.  **Clone the repository:**
-
-    ```bash
-    git clone <repository-url>
-    cd exchage-rate
-    ```
-
-2.  **Install backend dependencies:**
-
-    ```bash
-    npm install
-    ```
-
-3.  **Install frontend dependencies:**
-
-    ```bash
-    cd react-app
-    npm install
-    ```
+```bash
+git clone <repository-url>
+cd vibecoding-episode-2-typescript-app
+npm ci
+```
 
 ### Running the Application
 
-1.  **Start the backend server:**
+```bash
+npm start          # Vite dev server at http://localhost:3000
+npm run build      # type-check (tsc --noEmit), then a production build into build/
+npm run preview    # serve the production build locally
+```
 
-    From the root directory, build the TypeScript code:
-
-    ```bash
-    npm run build
-    ```
-
-    *(Note: The backend currently does not have a start script. You would typically run the compiled JavaScript file, e.g., `node dist/index.js`)*
-
-2.  **Start the frontend React application:**
-
-    From the `react-app` directory:
-
-    ```bash
-    npm start
-    ```
-
-    This will open the application in your default browser at `http://localhost:3000`.
+Environment variables exposed to the app must be prefixed `VITE_` and are read through `import.meta.env.VITE_*`
+(create-react-app used `REACT_APP_*` and `process.env`; the app currently uses none).
 
 ## Usage
 
@@ -74,7 +52,7 @@ The project is a monorepo with the following structure:
 
 ## Running Tests
 
-To run the tests for the React application, navigate to the `react-app` directory and run:
+The tests run on [Vitest](https://vitest.dev/) with jsdom and React Testing Library:
 
 ```bash
 npm test
